@@ -32,9 +32,10 @@ X = [ones(m, 1) X];
 z = X*all_theta'
 hx = sigmoid(z);
 [v p] = max(hx, [], 2);
-%max(A, [], 2)는 각 행 별 최대값을 구한다, 이 때 [val, idx]와 같이 반환값을 받으면 
-%val에는 각 행 별 최대값이, idx에는 그 최대값의 열 인덱스가 들어간다.
-%여기에서 필요한 건 인덱스, 즉 최대값이 나온 label(또는 class)이므로 [v p]와 같이 반환값을 받는다.
+%max(A, [], 2) returns [val, idx].
+%val is a maximum element of each row, idx is a column index of val.
+%Index (i.e. label(or class) of maximum of hx) is necessary in here so I use [v p] = max(hx, [], 2);
+%p is retrun value of the function, v is just a variable.
 
 
 % =========================================================================
