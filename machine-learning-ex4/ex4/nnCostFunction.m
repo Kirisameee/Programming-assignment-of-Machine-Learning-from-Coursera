@@ -50,10 +50,12 @@ z3 = a2*Theta2';
 a3 = sigmoid(z3);
 
 %Mapping y
+%Reference: https://github.com/yhyap/machine-learning-coursera/blob/master/mlclass-ex4/nnCostFunction.m
 y = eye(num_labels)(y,:);
 
 hx = a3; %K-dimensioned vector, K = 10
-f = (-y).*log(hx) - (1-y).*log(1-hx)
+f = (-y).*log(hx) - (1-y).*log(1-hx) %Since y is a vector .* operator must be used instead of *
+%Not Theta, Theta(:, 2:end) is used(for removing the bias units)
 J = (sum(sum(f))/m) + (lambda/(2*m))*(sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:, 2:end).^2)));
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
@@ -72,7 +74,7 @@ J = (sum(sum(f))/m) + (lambda/(2*m))*(sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Th
 %               first time.
 
 delta3 = a3 - y;
-z2 = [ones(m, 1) z2]; %Why add the bias unit??????
+z2 = [ones(m, 1) z2]; %Add the bias unit
 delta2 = delta3*Theta2.*sigmoidGradient(z2);
 
 Delta2 = 0;
@@ -81,9 +83,8 @@ Delta1 = 0;
 Delta2 = Delta2 + delta3'*a2;
 Delta1 = Delta1 + delta2(:, 2:end)'*a1; %Remove bias units
 
-%Theta2_grad = Delta2/m; % + lambda*[zeros(size(Theta2), 1) Theta2(:, 2:end)];
-%Theta1_grad = Delta1/m; %+ lambda*[zeros(size(Theta1), 1) Theta1(:, 2:end)];
-
+% Theta2_grad = Delta2/m; % + lambda*[zeros(size(Theta2), 1) Theta2(:, 2:end)];
+% Theta1_grad = Delta1/m; %+ lambda*[zeros(size(Theta1), 1) Theta1(:, 2:end)];
  
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -93,8 +94,9 @@ Delta1 = Delta1 + delta2(:, 2:end)'*a1; %Remove bias units
 %               and Theta2_grad from Part 2.
 %
 
-Theta2_grad = Delta2/m + lambda*[zeros(size(Theta2), 1) Theta2(:, 2:end)]/m;
-Theta1_grad = Delta1/m + lambda*[zeros(size(Theta1), 1) Theta1(:, 2:end)]/m;
+% Not consider the first column of Theta1 and Theta2
+Theta2_grad = (Delta2 + lambda*[zeros(size(Theta2), 1) Theta2(:, 2:end)])/m;
+Theta1_grad = (Delta1 + lambda*[zeros(size(Theta1), 1) Theta1(:, 2:end)])/m;
 
 % -------------------------------------------------------------
 
