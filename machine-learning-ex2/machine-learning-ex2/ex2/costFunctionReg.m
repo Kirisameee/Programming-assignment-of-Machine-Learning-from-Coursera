@@ -23,7 +23,6 @@ hx = sigmoid(z);
 temp = [zeros(1, size(theta, 2)); (theta([2:size(theta, 1)], :))];
 
 J = sum(((-y)'*log(hx) - (1-y)'*log(1-hx))./m) + sum((temp.^2).*(lambda/(2*m)));
-%J = sum((((-y)'*log(hx) - (1-y)'*log(1 - hx))./m) + ((temp.^2).*(lambda/(2*m)))); %¾È µÊ
 grad = ((X'*(hx-y))./m) + (temp.*(lambda/m));
 
 
