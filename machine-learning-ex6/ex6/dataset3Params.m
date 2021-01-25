@@ -24,7 +24,7 @@ sigma = 0.3;
 %
 
 values = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
-min_error = 100000;
+min_error = 100000; %Any large value
 
 for i = 1:length(values)
   for j = 1:length(values)
